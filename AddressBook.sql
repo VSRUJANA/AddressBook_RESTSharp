@@ -124,7 +124,7 @@ insert into Contact_Type values
 select * from Contact_Type
 
 --Join contact_Details and contact_type tables
-select contact.Contact_ID,FirstName,LastName,AddressBookName,ContactType,Address,City,State,Zipcode,PhoneNumber,Email
+select contact.Contact_ID,FirstName,LastName,AddressBookName,ContactType,Address,City,State,Zipcode,PhoneNumber,Email,format(Date_added,'dd-MM-yyyy')
 from Contact_Details contact 
 inner join Contact_Type type
 on (contact.Contact_ID = type.ContactID);
@@ -146,3 +146,9 @@ order by FirstName asc;
 
 -- Count contacts by type
 select ContactType, COUNT(ContactID) from Contact_Type group by ContactType;
+
+Alter table Contact_Details add Date_Added Date
+Update Contact_Details set Date_Added = '2020-10-03' where Contact_ID=1 or Contact_ID=3 or Contact_ID=8
+Update Contact_Details set Date_Added = '2019-08-28' where Contact_ID=2 or Contact_ID=7
+Update Contact_Details set Date_Added = '2017-04-05' where Contact_ID=4 or Contact_ID=6
+Update Contact_Details set Date_Added = '2018-12-07' where Contact_ID=5 or Contact_ID=9
