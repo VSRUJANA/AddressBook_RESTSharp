@@ -69,7 +69,7 @@ namespace AddressBookTest
             int expected = 3;
 
             contactList.Add(new Contact("Tony","Stark","Stark Tower","Manhattan","NewYork","10001","8987224534","ironman@gmail.com","Home","Family",DateTime.Now));
-            contactList.Add(new Contact("Pepper", "Potts", "Stark Tower", "Manhattan", "NewYork", "10001", "9987893534", "pepper@gmail.com", "Home", "Family", DateTime.Now));
+            contactList.Add(new Contact("Pepper", "Potts", "Stark Tower", "Manhattan", "NewYork", "10001", "9987894434", "pepper@gmail.com", "Home", "Family", DateTime.Now));
             contactList.Add(new Contact("Peter", "Parker", "Queens", "NewYork City", "NewYork", "12240", "7013456376", "spiderman@yahoo.com", "Home", "Friends", DateTime.Now));
             int result = addressBookRepo.AddMultipleContactsUsingThreads(contactList);
 
