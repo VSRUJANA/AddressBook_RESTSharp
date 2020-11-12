@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
@@ -83,7 +84,7 @@ namespace AddressBook_ADO.NET
                     }
                     else
                     {
-                        Console.WriteLine("No such contact with name '{0} {1}' in Address Book!", firstName, lastName);
+                        // Console.WriteLine("No such contact with name '{0} {1}' in Address Book!", firstName, lastName);
                         return false;
                     }
                 }
@@ -148,7 +149,7 @@ namespace AddressBook_ADO.NET
             {
                 DateTime startDate = Convert.ToDateTime(start);
                 DateTime endDate = Convert.ToDateTime(end);
-                if(startDate>endDate)
+                if (startDate > endDate)
                 {
                     throw new System.Exception("Start date cannot be greater than End date!");
                 }
@@ -163,8 +164,8 @@ namespace AddressBook_ADO.NET
                     if (reader.HasRows)
                     {
                         Console.WriteLine("Contacts added in the date range {0} and {1} : ", startDate.ToString("dd-MM-yyyy"), endDate.ToString("dd-MM-yyyy"));
-                        Console.Write("ID".PadRight(4) + "FirstName".PadRight(12) + "LastName".PadRight(12) + "BookName".PadRight(10) + "ContactType".PadRight(15)+ "Address".PadRight(20)); 
-                        Console.Write("City".PadRight(18) + "State".PadRight(12) + "Zip".PadRight(10) + "Phone No.".PadRight(15) + "Email".PadRight(27)+"Date_added"+"\n");
+                        Console.Write("ID".PadRight(4) + "FirstName".PadRight(12) + "LastName".PadRight(12) + "BookName".PadRight(10) + "ContactType".PadRight(15) + "Address".PadRight(20));
+                        Console.Write("City".PadRight(18) + "State".PadRight(12) + "Zip".PadRight(10) + "Phone No.".PadRight(15) + "Email".PadRight(27) + "Date_added" + "\n");
                         while (reader.Read())
                         {
                             Contact contact = new Contact();
@@ -179,16 +180,16 @@ namespace AddressBook_ADO.NET
                             contact.ZipCode = !reader.IsDBNull(8) ? reader.GetString(8) : "NA";
                             contact.PhoneNumber = !reader.IsDBNull(9) ? reader.GetString(9) : "NA";
                             contact.Email = !reader.IsDBNull(10) ? reader.GetString(10) : "NA";
-                            contact.Date_added = !reader.IsDBNull(11) ? Convert.ToDateTime(reader.GetString(11)) :DateTime.Now ;
+                            contact.Date_added = !reader.IsDBNull(11) ? Convert.ToDateTime(reader.GetString(11)) : DateTime.Now;
                             Console.Write(contact.ContactID.ToString().PadRight(4) + contact.FirstName.PadRight(12) + contact.LastName.PadRight(12));
                             Console.Write(contact.AddressBookName.PadRight(10) + contact.ContactType.PadRight(15) + contact.Address.PadRight(20));
                             Console.Write(contact.City.PadRight(18) + contact.State.PadRight(12) + contact.ZipCode.PadRight(10) + contact.PhoneNumber.PadRight(15));
-                            Console.Write(contact.Email.PadRight(27)+contact.Date_added.ToString("dd-MM-yyyy") +"\n");
+                            Console.Write(contact.Email.PadRight(27) + contact.Date_added.ToString("dd-MM-yyyy") + "\n");
                         }
                     }
                     else
                     {
-                        Console.WriteLine("No Contacts added in the date range {0} and {1}",startDate.ToString("dd-MM-yyyy"),endDate.ToString("dd-MM-yyyy"));
+                        Console.WriteLine("No Contacts added in the date range {0} and {1}", startDate.ToString("dd-MM-yyyy"), endDate.ToString("dd-MM-yyyy"));
                     }
 
                 }
@@ -274,6 +275,57 @@ namespace AddressBook_ADO.NET
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        // Add new contact to database
+        public bool AddContact(Contact contact)
+        {
+            connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("SpAddContactDetails", connection);
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@FirstName", contact.FirstName);
+                    command.Parameters.AddWithValue("@LastName", contact.LastName);
+                    command.Parameters.AddWithValue("@Address", contact.Address);
+                    command.Parameters.AddWithValue("@City", contact.City);
+                    command.Parameters.AddWithValue("@State", contact.State);
+                    command.Parameters.AddWithValue("@ZipCode", contact.ZipCode);
+                    command.Parameters.AddWithValue("@PhoneNo", contact.PhoneNumber);
+                    command.Parameters.AddWithValue("@Email", contact.Email);
+                    command.Parameters.AddWithValue("@Date", DateTime.Today);
+                    command.Parameters.AddWithValue("@BookName", contact.AddressBookName);
+                    command.Parameters.AddWithValue("@Type", contact.ContactType);
+                    command.Parameters.Add("@ContactId", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    connection.Close();
+
+                    if (result != 0)
+                    {
+                        Console.WriteLine("Contact added successfully!");
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Addition of new contact unsuccessfull!");
+                        return false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
             }
             finally
             {
