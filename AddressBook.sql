@@ -152,3 +152,4 @@ Update Contact_Details set Date_Added = '2020-10-03' where Contact_ID=1 or Conta
 Update Contact_Details set Date_Added = '2019-08-28' where Contact_ID=2 or Contact_ID=7
 Update Contact_Details set Date_Added = '2017-04-05' where Contact_ID=4 or Contact_ID=6
 Update Contact_Details set Date_Added = '2018-12-07' where Contact_ID=5 or Contact_ID=9
+

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace AddressBook_ADO.NET
 {
@@ -13,7 +14,7 @@ namespace AddressBook_ADO.NET
             {
                 Console.Write("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
                 Console.WriteLine("\nMenu : \n1. View all records \n2. Update PhoneNumber and Email \n3. Retrieve Contacts added in given date range \n" +
-                    "4. Get Contacts count by City \n5. Get Contacts count by State \n6. Add New contact \n7. Exit");
+                    "4. Get Contacts count by City \n5. Get Contacts count by State \n6. Add New contact \n7.Add Multiple contacts using Threads\n8. Exit");
                 Console.Write("Enter choice: ");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
@@ -85,6 +86,48 @@ namespace AddressBook_ADO.NET
                         }
                         break;
                     case 7:
+                        List<Contact> contactList = new List<Contact>();
+                        while (true)
+                        {
+                            Contact newContact = new Contact();
+                            Console.WriteLine("Enter the person details to be added in the address book");
+                            Console.Write("Enter First Name : ");
+                            newContact.FirstName = Console.ReadLine();
+                            Console.Write("Enter Last Name : ");
+                            newContact.LastName = Console.ReadLine();
+                            if (repo.SearchContact(newContact.FirstName, newContact.LastName))
+                            {
+                                Console.WriteLine("Contact with name '{0} {1}' already exists!", newContact.FirstName, newContact.LastName);
+                            }
+                            else
+                            {
+                                Console.Write("Enter Address Book Name : ");
+                                newContact.AddressBookName = Console.ReadLine();
+                                Console.Write("Enter Contact Type : ");
+                                newContact.ContactType = Console.ReadLine();
+                                Console.Write("Enter Address : ");
+                                newContact.Address = Console.ReadLine();
+                                Console.Write("Enter City : ");
+                                newContact.City = Console.ReadLine();
+                                Console.Write("Enter State : ");
+                                newContact.State = Console.ReadLine();
+                                Console.Write("Enter ZipCode : ");
+                                newContact.ZipCode = Console.ReadLine();
+                                Console.Write("Enter Phone Number : ");
+                                validator.ValidatePhoneNumber(Console.ReadLine());
+                                newContact.PhoneNumber = validator.phoneNo;
+                                Console.Write("Enter Email ID : ");
+                                validator.ValidateEmail(Console.ReadLine());
+                                newContact.Email = validator.emailID;
+                                contactList.Add(newContact);
+                            }
+                            Console.WriteLine("Do you want to add more contacts ? Yes / No");
+                            if (Console.ReadLine().ToUpper() == "NO")
+                                break;
+                        }
+                        repo.AddMultipleContactsUsingThreads(contactList);
+                        break;
+                    case 8:
                         loop = false;
                         break;
                     default:

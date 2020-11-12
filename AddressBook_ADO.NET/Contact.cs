@@ -18,5 +18,27 @@ namespace AddressBook_ADO.NET
         public string AddressBookName { get; set; }
         public string ContactType { get; set; }
         public DateTime Date_added { get; set; }
+
+        // Default Constructor
+        public Contact()
+        {
+
+        }
+
+        // Parameterised Constructor
+        public Contact(string firstName, string lastName, string address, string city, string state, string zipCode, string phoneNumber, string email, string addressBookName, string contactType, DateTime date_added)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Address = address;
+            City = city;
+            State = state;
+            ZipCode = zipCode;
+            PhoneNumber = phoneNumber;
+            Email = email;
+            AddressBookName = addressBookName;
+            ContactType = contactType;
+            Date_added = date_added;
+        }
     }
 }
