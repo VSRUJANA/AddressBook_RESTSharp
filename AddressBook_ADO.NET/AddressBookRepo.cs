@@ -9,6 +9,8 @@ namespace AddressBook_ADO.NET
     {
         string connectionString = @"Data Source=LAPTOP-BSJLU8TT\SQLEXPRESS;Initial Catalog=Address_Book_Service;Integrated Security=True";
         SqlConnection connection;
+
+        // Retrieve all contacts from Address_Book_Service database
         public bool RetrieveFromDatabase()
         {
             connection = new SqlConnection(connectionString);
@@ -49,6 +51,81 @@ namespace AddressBook_ADO.NET
                         Console.WriteLine("No records in the database!");
                     }
                     return true;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        // Search whether contact with given name is present in Address_Book_service database
+        public bool SearchContact(string firstName, string lastName)
+        {
+            connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    string query = "select FirstName,LastName from Contact_Details where FirstName='" + firstName + "' and LastName='" + lastName + "'";
+                    SqlCommand cmd = new SqlCommand(query, connection);
+                    this.connection.Open();
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("No such contact with name '{0} {1}' in Address Book!", firstName, lastName);
+                        return false;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return false;
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        // Update Contact information of given contact
+        public bool UpdateContact(Contact contact)
+        {
+            connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("SpUpdateContactInfo", connection);
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+
+                    command.Parameters.AddWithValue("@FirstName", contact.FirstName);
+                    command.Parameters.AddWithValue("@LastName", contact.LastName);
+                    command.Parameters.AddWithValue("@PhoneNo", contact.PhoneNumber);
+                    command.Parameters.AddWithValue("@Email", contact.Email);
+
+                    connection.Open();
+                    var result = command.ExecuteNonQuery();
+                    connection.Close();
+
+                    if (result != 0)
+                    {
+
+                        Console.WriteLine("Contact info of '{0} {1}' updated successfully!", contact.FirstName, contact.LastName);
+                        return true;
+                    }
+                    Console.WriteLine("No such contact with name '{0} {1}'!", contact.FirstName, contact.LastName);
+                    return false;
                 }
             }
             catch (Exception e)
