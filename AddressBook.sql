@@ -90,16 +90,15 @@ Email varchar(25) not null
 
 -- Inserting data in table
 insert into Contact_Details values
-('Tony','Stark','Stark Tower, 59th Street, Broadway','Manhattan','NewYork','100001','8987224534','ironman@gmail.com'),
+('Tony','Stark','Stark Tower','Manhattan','NewYork','10001','8987224534','ironman@gmail.com'),
 ('Steve','Rogers','Times Square','Brooklyn','Texas','11224','9876778434','captainAmerica@yahoo.com'),
-('Bruce','Banner','Vandalia','Greater Dayton','Florida','45441','1403425611','incredibleHulk@gmail.com'),
-('Peter','Parker','20 Ingram Street, Forest Hills, Queens','NewYork City','NewYork','10023','4013224355','spiderman@gmail.com'),
-('Stephen','Strange','177A Bleecker Street, Greenwich Village','Manhattan','NewYork','10431','6300964579','drStrange@yahoo.com'),
-('Thor','Odinson','RoyalPalace','Asgard','Florida','224','7849876734','thor@rediffmail.com'),
-('Natasha','Romanoff','Broadway street','NewYork City','NewYork','10028','45667365277','blackwidow@gmail.com'),
-('Pepper','Potts','Stark Tower, 59th Street, Broadway','Manhattan','NewYork','100001','8987224534','pepper@gmail.com'),
-('Edwin','Jarvis','Avengers Mansion, 890 Fifth Avenue', 'Manhattan', 'Texas','112','67676886','jarvis@gmail.com'),
-('Howard','Stark','Richford','Manhattan','NewYork','100001','9876543256','stark@yahoo.com');
+('Bruce','Banner','Vandalia','Greater Dayton','Florida','45441','9403425611','incredibleHulk@gmail.com'),
+('Peter','Parker','Queens','NewYork City','NewYork','10023','7713224355','spiderman@gmail.com'),
+('Stephen','Strange','Bleecker Street','Manhattan','NewYork','10431','6300964579','drStrange@yahoo.com'),
+('Thor','Odinson','RoyalPalace','Asgard','Florida','22400','7849876734','thor@rediffmail.com'),
+('Natasha','Romanoff','Broadway street','NewYork City','NewYork','10028','8667365277','blackwidow@gmail.com'),
+('Pepper','Potts','Stark Tower','Manhattan','NewYork','10001','8987224534','pepper@gmail.com'),
+('Edwin','Jarvis','Avengers Mansion', 'Manhattan', 'Texas','11224','6700676886','jarvis@gmail.com');
 select * from Contact_Details;
 
 -- Create table Contact_Type
@@ -110,7 +109,7 @@ AddressBookName varchar(20) not null,
 ContactType varchar(20) not null
 );
 
--- Inserting data in tablee
+-- Inserting data in table
 insert into Contact_Type values
 (1,'Home','Family'),
 (2,'Home','Friends'),
@@ -120,14 +119,15 @@ insert into Contact_Type values
 (6,'Home','Friends'),
 (7,'Office','Profession'),
 (8,'Home','Family'),
-(9,'Home','Family'),
-(10,'Home','Family')
+(9,'Home','Family')
 --View Contact_type
 select * from Contact_Type
 
 --Join contact_Details and contact_type tables
-select * from Contact_Details contact inner join Contact_Type type
-on (contact.Contact_ID = type.ContactID)
+select contact.Contact_ID,FirstName,LastName,AddressBookName,ContactType,Address,City,State,Zipcode,PhoneNumber,Email
+from Contact_Details contact 
+inner join Contact_Type type
+on (contact.Contact_ID = type.ContactID);
 
 -- UC-13 Ensure retrieve queries in UC 6, UC 7, UC 8 and UC 10 are working with new table structure
 -- Retrieve contacts belonging to City or state from Address_Book
