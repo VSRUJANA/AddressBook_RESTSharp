@@ -12,7 +12,8 @@ namespace AddressBook_ADO.NET
             while (loop)
             {
                 Console.Write("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-                Console.WriteLine("Menu : \n1. View all records \n2. Update PhoneNumber and Email \n3. Retrieve Contacts added in given date range \n4. Exit");
+                Console.WriteLine("\nMenu : \n1. View all records \n2. Update PhoneNumber and Email \n3. Retrieve Contacts added in given date range \n" +
+                    "4. Get Contacts count by City \n5. Get Contacts count by State \n6. Exit");
                 Console.Write("Enter choice: ");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
@@ -35,7 +36,7 @@ namespace AddressBook_ADO.NET
                             validator.ValidateEmail(Console.ReadLine());
                             contact.Email = validator.emailID;
                             repo.UpdateContact(contact);
-                        }                        
+                        }
                         break;
                     case 3:
                         Console.Write("Enter start date : ");
@@ -45,12 +46,17 @@ namespace AddressBook_ADO.NET
                         repo.GetContactsAddedInDateRange(startDate, endDate);
                         break;
                     case 4:
+                        repo.GetCountByCity();
+                        break;
+                    case 5:
+                        repo.GetCountByState();
+                        break;
+                    case 6:
                         loop = false;
                         break;
                     default:
                         Console.WriteLine("Invalid choice!");
                         break;
-
                 }
             }
         }

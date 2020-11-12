@@ -202,5 +202,83 @@ namespace AddressBook_ADO.NET
                 connection.Close();
             }
         }
+
+        // Get number of Contacts in the Database by City 
+        public void GetCountByCity()
+        {
+            connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("SpGetCountByCity", connection);
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        Console.WriteLine("Number of Contacts in the Address Book by City : \n");
+                        Console.WriteLine("City".PadRight(18) + "Count");
+                        while (reader.Read())
+                        {
+                            string city = reader.GetString(0);
+                            int count = reader.GetInt32(1);
+                            Console.WriteLine(city.PadRight(20) + count);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No records in the database!");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        // Get number of Contacts in the Database by State
+        public void GetCountByState()
+        {
+            connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    SqlCommand command = new SqlCommand("SpGetCountByState", connection);
+                    command.CommandType = System.Data.CommandType.StoredProcedure;
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.HasRows)
+                    {
+                        Console.WriteLine("Number of Contacts in the Address Book by State : \n");
+                        Console.WriteLine("State".PadRight(18) + "Count");
+                        while (reader.Read())
+                        {
+                            string state = reader.GetString(0);
+                            int count = reader.GetInt32(1);
+                            Console.WriteLine(state.PadRight(20) + count);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("No records in the database!");
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
     }
 }
