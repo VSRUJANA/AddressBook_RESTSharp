@@ -17,5 +17,6 @@ namespace AddressBook_ADO.NET
         public string Email { get; set; }
         public string AddressBookName { get; set; }
         public string ContactType { get; set; }
+        public DateTime Date_added { get; set; }
     }
 }

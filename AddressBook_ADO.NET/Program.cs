@@ -11,8 +11,8 @@ namespace AddressBook_ADO.NET
             bool loop = true;
             while (loop)
             {
-                Console.WriteLine("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
-                Console.WriteLine("Choose \n1. View all records \n2. Update PhoneNumber and Email \n3. Exit");
+                Console.Write("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                Console.WriteLine("Menu : \n1. View all records \n2. Update PhoneNumber and Email \n3. Retrieve Contacts added in given date range \n4. Exit");
                 Console.Write("Enter choice: ");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
@@ -38,6 +38,13 @@ namespace AddressBook_ADO.NET
                         }                        
                         break;
                     case 3:
+                        Console.Write("Enter start date : ");
+                        string startDate = Console.ReadLine();
+                        Console.Write("Enter end date   : ");
+                        string endDate = Console.ReadLine();
+                        repo.GetContactsAddedInDateRange(startDate, endDate);
+                        break;
+                    case 4:
                         loop = false;
                         break;
                     default:
