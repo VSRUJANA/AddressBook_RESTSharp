@@ -45,17 +45,6 @@
       "email": "spiderman@gmail.com"
     },
     {
-      "firstname": "Stephen",
-      "lastname": "Strange",
-      "phoneNo": "6300964579",
-      "address": "Bleecker Street",
-      "city": "Manhattan",
-      "state": "NewYork",
-      "zip": "10431",
-      "email": "drStrange@yahoo.com",
-      "id": 5
-    },
-    {
       "firstname": "Thor",
       "lastname": "Odinson",
       "phoneNo": "7858070934",
