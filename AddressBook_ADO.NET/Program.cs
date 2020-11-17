@@ -14,7 +14,7 @@ namespace AddressBook_ADO.NET
             {
                 Console.Write("----------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
                 Console.WriteLine("\nMenu : \n1. View all records \n2. Update PhoneNumber and Email \n3. Retrieve Contacts added in given date range \n" +
-                    "4. Get Contacts count by City \n5. Get Contacts count by State \n6. Add New contact \n7.Add Multiple contacts using Threads\n8. Exit");
+                    "4. Get Contacts count by City \n5. Get Contacts count by State \n6. Add New contact \n7. Add Multiple contacts using Threads\n8. Exit");
                 Console.Write("Enter choice: ");
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
